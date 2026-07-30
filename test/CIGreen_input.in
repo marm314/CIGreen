@@ -1,0 +1,15 @@
+# N system
+FCIDUMP_N          
+-2.880699493366  
+# N+1 system
+2
+FCIDUMP_Np1_St1     
+FCIDUMP_Np1_St2     
+-1.514213562373
+ 1.314213562373
+# N-1 system
+2
+FCIDUMP_Nm1_St1     
+FCIDUMP_Nm1_St2    
+-1.514213562373  
+ 1.314213562373
