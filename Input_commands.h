@@ -8,6 +8,7 @@
 #include<string>
 #include<stdio.h>
 #include<iomanip>
+#include<vector>
 #include"String_ops.h"
 #include"Numbers.h"
 
@@ -17,9 +18,16 @@ using namespace std;
 //////////////////////////
 class Input
 {
+ private:
+ size_t icount;
  public:
- int nBasis,nBasis2;
- 
+ size_t nBasis,nBasis2,nelectrons;
+ double En;
+ vector<double>Enp1;
+ vector<double>Enm1;
+ string file_N;
+ vector<string>file_Np1;
+ vector<string>file_Nm1;
  Input();
  Input(string);
  ~Input();

@@ -3,11 +3,10 @@
 #include<vector>
 #include<fstream>
 #include<cstring>
+#include"Input_commands.h"
 #include"gitver.h"
 
 using namespace std;
-
-void read_store_files(string inp_name);
 
 struct idx
 {
@@ -20,9 +19,6 @@ struct C_det
  vector<idx>indices_work;
 };
 vector<C_det>Cdet;
-string file_N;
-vector<string>file_Np1;
-vector<string>file_Nm1;
 
 
 int main(int argc, char *argv[])
@@ -53,7 +49,10 @@ int main(int argc, char *argv[])
  }
  string inp_name=argv[1];
  // Read input file
- read_store_files(inp_name);
+ cout<<endl; 
+ cout<<" Reading input file "<<inp_name<<endl; 
+ cout<<endl; 
+ Input Input_commands(inp_name);
  
  cout<<endl;
  cout<<"Git sha: "<<sha<<endl;
@@ -65,9 +64,3 @@ int main(int argc, char *argv[])
  return 0;
 }
 
-void read_store_files(string inp_name)
-{
- cout<<endl; 
- cout<<" Reading input file "<<inp_name<<endl; 
- cout<<endl; 
-}
