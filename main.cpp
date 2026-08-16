@@ -3,6 +3,7 @@
 #include<vector>
 #include<fstream>
 #include<cstring>
+#include"gitver.h"
 
 using namespace std;
 
@@ -15,7 +16,8 @@ struct idx
 struct C_det
 {
  double Coef;
- vector<idx>indices;
+ vector<idx>indices_ref;
+ vector<idx>indices_work;
 };
 vector<C_det>Cdet;
 string file_N;
@@ -34,10 +36,15 @@ int main(int argc, char *argv[])
  cout<<"--      email: marm3.14@gmail.com         --"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
+ string sha;
+ gitversion(sha);
  if(argc!=2)
  {
   cout<<"Include the input file"<<endl;
   cout<<"./CIGreen input "<<endl;
+  cout<<endl;
+  cout<<"Git sha: "<<sha<<endl;
+  cout<<endl;
   cout<<"----------------------------------------"<<endl;
   cout<<"--        Normal termination          --"<<endl;
   cout<<"----------------------------------------"<<endl;
@@ -48,6 +55,9 @@ int main(int argc, char *argv[])
  // Read input file
  read_store_files(inp_name);
  
+ cout<<endl;
+ cout<<"Git sha: "<<sha<<endl;
+ cout<<endl;
  cout<<"----------------------------------------"<<endl;
  cout<<"--        Normal termination          --"<<endl;
  cout<<"----------------------------------------"<<endl;

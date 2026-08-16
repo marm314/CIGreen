@@ -2,3 +2,8 @@ CIGreen.x
 test/FCIDUMP_1e.out
 test/FCIDUMP_3e.out
 test/FCIDUMP.out
+gitver.o
+Input_commands.o
+main.o
+String_ops.o
+CIGreen.tar.gz
