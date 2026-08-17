@@ -9,6 +9,7 @@
 
 using namespace std;
 void read_nsystem(Input Input_commands,vector<C_det>&Cdet);
+void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_an_N);
 
 #endif // _IO_VERSION_H_
 

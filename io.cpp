@@ -63,7 +63,23 @@ void read_nsystem(Input Input_commands,vector<C_det>&Cdet)
  }
 */
  cout<<" Sum_I | C_I |^2 = "<<setw(20)<<norm<<" N system"<<endl;
+ for(idet=0;idet<ndet;idet++)
+ {
+  Cdet[idet].Coef=Cdet[idet].Coef/sqrt(norm);
+ }
+ norm=ZERO;
+ for(idet=0;idet<ndet;idet++)
+ {
+  norm=norm+Cdet[idet].Coef*Cdet[idet].Coef;
+ }
+ cout<<" Sum_I | C_I |^2 = "<<setw(20)<<norm<<" N system (normalized)"<<endl;
  cout<<endl;
- delete index;index=NULL;
+ delete[] index;index=NULL;
 }
+
+void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_an_N)
+{
+ 
+}
+
 
