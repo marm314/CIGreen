@@ -7,8 +7,8 @@ Cln = /bin/rm -rf
 NAME=CIGreen
 ###########################################
 ###########################################
-SCR= main.cpp Input_commands.cpp String_ops.cpp gitver.cpp 
-OBJECTS= main.o Input_commands.o String_ops.o gitver.o gitver.o
+SCR= main.cpp Input_commands.cpp String_ops.cpp gitver.cpp io.cpp
+OBJECTS= main.o Input_commands.o String_ops.o gitver.o gitver.o io.o
 all:
 	./gitversion.sh
 	make CIGreen

@@ -5,21 +5,11 @@
 #include<cstring>
 #include"Input_commands.h"
 #include"gitver.h"
+#include"io.h"
 
 using namespace std;
 
-struct idx
-{
- int i,sigma; // Sigma 0 is alpha, 1 is beta
-};
-struct C_det
-{
- double Coef;
- vector<idx>indices_ref;
- vector<idx>indices_work;
-};
 vector<C_det>Cdet;
-
 
 int main(int argc, char *argv[])
 {
@@ -53,6 +43,15 @@ int main(int argc, char *argv[])
  cout<<" Reading input file "<<inp_name<<endl; 
  cout<<endl; 
  Input Input_commands(inp_name);
+ // Store the N electron system
+ read_nsystem(Input_commands,Cdet);
+
+double norm=0e0;
+for(size_t idet=0;idet<Cdet.size();idet++)
+{
+ norm=norm+Cdet[idet].Coef*Cdet[idet].Coef;
+}
+cout<<norm<<endl;
  
  cout<<endl;
  cout<<"Git sha: "<<sha<<endl;

@@ -16,12 +16,18 @@ using namespace std;
 //////////////////////////
 //Functions declaration //
 //////////////////////////
-class Input
+struct C_det // Slater determinant information
+{
+ double Coef;
+ vector<int>indices_ref;
+ vector<int>indices_work;
+};
+class Input // Input information
 {
  private:
  size_t icount;
  public:
- size_t nBasis,nBasis2,nelectrons;
+ size_t nBasis,nelectrons;
  double En;
  vector<double>Enp1;
  vector<double>Enm1;

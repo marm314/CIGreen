@@ -4,7 +4,7 @@ Input::Input(string cigreen_in)
 {
  size_t nP1,nM1;
  double val;
- nBasis=0;nBasis2=0;nP1=0;nM1=0;
+ nBasis=0;nP1=0;nM1=0;
  string name;
  ifstream cigreen_input_file;
  cigreen_in.erase(std::remove_if(cigreen_in.begin(),cigreen_in.end(),::isspace),cigreen_in.end());
@@ -22,7 +22,7 @@ Input::Input(string cigreen_in)
     file_N=cigreen_in;
     cigreen_input_file>>En;
    }
-   else if(cigreen_in=="#nbasis"){cigreen_input_file>>nBasis;nBasis2=2*nBasis;}
+   else if(cigreen_in=="#nbasis"){cigreen_input_file>>nBasis;}
    else if(cigreen_in=="#nelectrons"){cigreen_input_file>>nelectrons;}
    else if(cigreen_in=="#n+1system")
    {
