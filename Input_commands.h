@@ -20,7 +20,6 @@ struct C_det // Slater determinant information
 {
  double Coef;
  vector<int>indices_ref;
- vector<int>indices_work;
 };
 class Input // Input information
 {
