@@ -46,12 +46,6 @@ int main(int argc, char *argv[])
  // Store the N electron system
  read_nsystem(Input_commands,Cdet);
 
-double norm=0e0;
-for(size_t idet=0;idet<Cdet.size();idet++)
-{
- norm=norm+Cdet[idet].Coef*Cdet[idet].Coef;
-}
-cout<<norm<<endl;
  
  cout<<endl;
  cout<<"Git sha: "<<sha<<endl;
