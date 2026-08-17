@@ -113,7 +113,7 @@ void read_nsystem(Input Input_commands,vector<C_det>&Cdet)
 void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_an_N)
 {
  bool active;
- size_t ibas,idet,ielec,istate,*ndet,*index;
+ size_t ibas,jbas,idet,ielec,istate,*ndet,*index;
  double val,*fact_norm;
  string line;
  ndet=new size_t[Input_commands.file_Nm1.size()];
@@ -167,14 +167,23 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
    Cdet[idet].active=true;
    if(! (find(Cdet[idet].indices_ref.begin(), Cdet[idet].indices_ref.end(),ibas+1)!=Cdet[idet].indices_ref.end() ) ){Cdet[idet].active=false;}
   }
-  // Extract the rest of indices for the active determinants that contain ibas
+  // Extract the rest of indices for the active determinants that contain ibas and build the column overlap
   for(idet=0;idet<Cdet.size();idet++)
   {
    if(Cdet[idet].active)
    {
-     // Extract indices
+    // Extract indices
+    vector<int>indices_tmp;
+    for(jbas=0;jbas<Input_commands.nelectrons;jbas++)
+    {
+     if(Cdet[idet].indices_ref[jbas]!=ibas+1)
+     {
+      indices_tmp.push_back(Cdet[idet].indices_ref[jbas]);
+     }
+    }
      // read for each state (N-1) indices (sorting them) and adding phases to the coefs
      // compute overlap N-1 and N and store it at Nm1_an_N[istate][ibas]
+
    }
   }
  }
