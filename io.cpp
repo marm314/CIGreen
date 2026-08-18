@@ -111,7 +111,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
  bool active;
  int nSwaps;
  size_t ibas,jbas,kbas,idet,jdet,ielec,jelec,istate,*ndet,*index;
- double val,Coef_nm1,*fact_norm;
+ double val,Coef_n,Coef_nm1,*fact_norm;
  string line;
  ndet=new size_t[Input_commands.file_Nm1.size()];
  index=new size_t[Input_commands.nelectrons-1];
@@ -163,13 +163,21 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
   for(idet=0;idet<Cdet.size();idet++)
   {
    Cdet[idet].active=true;
-   if(! (find(Cdet[idet].indices_ref.begin(), Cdet[idet].indices_ref.end(),ibas+1)!=Cdet[idet].indices_ref.end() ) ){Cdet[idet].active=false;}
+   if(! ( find(Cdet[idet].indices_ref.begin(), Cdet[idet].indices_ref.end(),ibas+1)!=Cdet[idet].indices_ref.end() ) ){Cdet[idet].active=false;}
   }
   // Extract the rest of indices for the active determinants that contain ibas and build the column overlap
   for(idet=0;idet<Cdet.size();idet++)
   {
    if(Cdet[idet].active)
    {
+    // Correct the sign of the CI coefficient when annihilating state ibas
+    Coef_n=Cdet[idet].Coef;
+    kbas=0;
+    for(jbas=0;jbas<Input_commands.nelectrons/2;jbas++)
+    {
+     if(ibas+1>Cdet[idet].indices_ref[jbas]){kbas++;}
+    }
+    Coef_n=Coef_n*pow(-ONE,(double)kbas);
     // Extract indices from N after annihilation of ibas
     vector<int>indices_tmp;
     for(jbas=0;jbas<Input_commands.nelectrons;jbas++)
@@ -231,7 +239,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
         // Compute overlap N-1 and N and store it at Nm1_an_N[istate][ibas]
         if(indices_tmp==indices_tmp2)
         {
-         Nm1_an_N[istate][ibas]+=Coef_nm1*Cdet[idet].Coef;
+         Nm1_an_N[istate][ibas]+=Coef_nm1*Coef_n;
         }
        }
       }
