@@ -79,10 +79,14 @@ int main(int argc, char *argv[])
     }
     write_N<<endl;
    }
+   write_N<<" /EOF"<<endl;
   }
   else
   {
-   write_N<<line<<endl;
+   if(line!=" /EOF")
+   {
+    write_N<<line<<endl;
+   }
   }
  }
  read_N.close();
