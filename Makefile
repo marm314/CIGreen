@@ -13,12 +13,15 @@ all:
 	./gitversion.sh
 	make CIGreen
 	make fcidump_sw
+	make fcidump_u2d
 %.o: %.cpp   
 	$(CPP) $(CPPFLAGS) -c $*.cpp 
 CIGreen: $(OBJECTS) $(SCR) Makefile 
 	$(CPP) $(CPPFLAGS) $(OBJECTS) -o CIGreen.x
 fcidump_sw: fcidump_sw.cpp Makefile 
 	$(CPP) fcidump_sw.cpp -o fcidump_sw
+fcidump_u2d: fcidump_u2d.cpp Makefile 
+	$(CPP) fcidump_u2d.cpp -o fcidump_u2d
 clean:
 	$(Cln) *.o
 	$(Cln) *CIGreen.x

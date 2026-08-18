@@ -1,0 +1,42 @@
+ PROGRAM FCI  (Determinant based Full CI)     Author: P.J. Knowles, 1984
+
+ Variable memory set to       100000000 words
+ Active orbitals:              2( 2 0 0 0 0 0 0 0)
+ Active electrons:             2
+ Frozen electrons:             0
+ Frozen orbitals:              0
+ Spin quantum number:          0.0
+ Orbital pairs:                   3     0     0     0     0     0     0     0
+ Strings:                         2     0     0     0     0     0     0     0
+                                  2     0     0     0     0     0     0     0
+ Determinants:                          4           0           0           0
+                                        0           0           0           0
+ Core energy:                      0.000000000000
+
+ Space symmetry:               1
+ Maximum iterations:          50
+ Convergence threshold:         0.0000001
+ Output threshold:              0.0010000
+ Number of roots:              3
+
+ Initial configuration generated:
+       1      1.0000000     -2.0000000
+
+ It  Tr    CPU  Convergence   Energy
+
+  1   1    0.0  1.00000000     -2.000000000
+  2   2    0.0  0.87661137     -2.776305461      0.576305461
+  3   3    0.0  0.86668360     -2.880699493     -0.099875156      2.780574650
+ State 1     Energy     -2.880699493366
+ Correlation energy     -0.880699493366
+
+ Final CI vector
+
+       0.839070182789  1  3
+       0.369484342440  2  3
+       0.369484342440  1  4
+       0.151406306798  2  4
+
+ /EOF
+
+ Variable memory released
