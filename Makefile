@@ -12,10 +12,13 @@ OBJECTS= main.o Input_commands.o String_ops.o gitver.o gitver.o io.o
 all:
 	./gitversion.sh
 	make CIGreen
+	make fcidump_sw
 %.o: %.cpp   
 	$(CPP) $(CPPFLAGS) -c $*.cpp 
 CIGreen: $(OBJECTS) $(SCR) Makefile 
 	$(CPP) $(CPPFLAGS) $(OBJECTS) -o CIGreen.x
+fcidump_sw: fcidump_sw.cpp Makefile 
+	$(CPP) fcidump_sw.cpp -o fcidump_sw
 clean:
 	$(Cln) *.o
 	$(Cln) *CIGreen.x
