@@ -25,6 +25,8 @@ fcidump_u2d: fcidump_u2d.cpp Makefile
 clean:
 	$(Cln) *.o
 	$(Cln) *CIGreen.x
+	$(Cln) *fcidump_sw
+	$(Cln) *fcidump_u2d
 	$(Cln) *~
 	$(Cln) gitver.cpp gitver.o gitver.h
 	$(Cln) $(NAME).tar.gz 
