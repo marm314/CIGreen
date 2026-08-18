@@ -4,6 +4,7 @@ Input::Input(string cigreen_in)
 {
  size_t nP1,nM1;
  double val;
+ time=false;
  nBasis=0;nP1=0;nM1=0;
  string name;
  ifstream cigreen_input_file;
@@ -65,6 +66,10 @@ Input::Input(string cigreen_in)
      file_Nm1.push_back(name);
      icount++;
     }while(icount<nM1);
+   }
+   else if(cigreen_in=="#time")
+   {
+    cigreen_input_file>>t0>>tfin>>tstep;
    }
    else{}
   }

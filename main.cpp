@@ -70,6 +70,11 @@ int main(int argc, char *argv[])
  ovlp_nm1_an_n_system(Input_commands,Cdet,Nm1_an_N);
  // Compute the < N+1 | cre_p | N > overlaps
  ovlp_np1_cr_n_system(Input_commands,Cdet,Np1_cr_N);
+ // If time evaluation
+ if(Input_commands.time)
+ {
+  
+ }
 
  // Deallocate arrays
  for(istate=0;istate<Input_commands.file_Np1.size();istate++)

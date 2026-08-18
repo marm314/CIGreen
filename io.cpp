@@ -177,6 +177,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
     {
      if(ibas+1>Cdet[idet].indices_ref[jbas]){kbas++;}
     }
+//  cout<<"ibas "<<ibas+1<<" idet "<<idet+1<<" kbas "<<kbas<<endl;
     Coef_n=Coef_n*pow(-ONE,(double)kbas);
     // Extract indices from N after annihilation of ibas
     vector<int>indices_tmp;
@@ -250,6 +251,8 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
   }
  }
 /*
+ cout<<endl;
+ cout<<"Nm1_an_N matrix"<<endl;
  for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
  {
   for(ibas=0;ibas<Input_commands.nBasis;ibas++)
@@ -258,6 +261,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
   }
   cout<<endl;
  }
+ cout<<endl;
 */
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
@@ -335,6 +339,7 @@ void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_c
     {
      if(ibas+1>Cdet[idet].indices_ref[jbas]){kbas++;}
     }
+//  cout<<"ibas "<<ibas+1<<" idet "<<idet+1<<" kbas "<<kbas<<endl;
     Coef_n=Coef_n*pow(-ONE,(double)kbas);
     // Extract indices from N after creation of ibas
     vector<int>indices_tmp;
@@ -416,6 +421,8 @@ void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_c
   }
  }
 /*
+ cout<<endl;
+ cout<<"Np1_cr_N matrix"<<endl;
  for(istate=0;istate<Input_commands.file_Np1.size();istate++)
  {
   for(ibas=0;ibas<Input_commands.nBasis;ibas++)
@@ -424,6 +431,7 @@ void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_c
   }
   cout<<endl;
  }
+ cout<<endl;
 */
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
