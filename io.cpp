@@ -153,7 +153,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
    }
   }
   read_Nm1.close();
-  cout<<" Sum_I | C_I |^2 = "<<setw(20)<<fact_norm[istate]<<" N-1 system"<<endl;
+  cout<<" Sum_I | C_I |^2 = "<<setw(20)<<fact_norm[istate]<<" N-1 system "<<Input_commands.file_Nm1[istate]<<endl;
   fact_norm[istate]=ONE/sqrt(fact_norm[istate]);
  }  
  // For each column of Nm1_an_N[istate][ibas] (basis) compute the N-1 states overlap
@@ -241,6 +241,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
    }
   }
  }
+/*
  for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
  {
   for(ibas=0;ibas<Input_commands.nBasis;ibas++)
@@ -249,9 +250,14 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
   }
   cout<<endl;
  }
+*/
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
  delete[] ndet;ndet=NULL;
 }
 
+void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_cr_N)
+{
+
+}
 

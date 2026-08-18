@@ -66,8 +66,10 @@ int main(int argc, char *argv[])
  }
  // Store the N electron system
  read_nsystem(Input_commands,Cdet);
- // Compute the N-1 electron system
+ // Compute the < N-1 | anh_p | N > overlaps
  ovlp_nm1_an_n_system(Input_commands,Cdet,Nm1_an_N);
+ // Compute the < N+1 | cre_p | N > overlaps
+ ovlp_np1_cr_n_system(Input_commands,Cdet,Np1_cr_N);
 
  // Deallocate arrays
  for(istate=0;istate<Input_commands.file_Np1.size();istate++)
