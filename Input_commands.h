@@ -30,7 +30,7 @@ class Input // Input information
  bool time;
  size_t nBasis,nelectrons;
  double En;
- double t0,tfin,tstep;
+ double t0,tlast,tstep;
  vector<double>Enp1;
  vector<double>Enm1;
  string file_N;

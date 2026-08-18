@@ -14,6 +14,7 @@ vector<C_det>Cdet;
 int main(int argc, char *argv[])
 {
  size_t istate,ibas;
+ double tau;
  double **Nm1_an_N;
  double **Np1_cr_N;
  cout<<"--------------------------------------------"<<endl; 
@@ -73,7 +74,11 @@ int main(int argc, char *argv[])
  // If time evaluation
  if(Input_commands.time)
  {
-  
+  for(tau=Input_commands.t0;tau<=Input_commands.tlast;tau=tau+Input_commands.tstep)
+  {
+   // TODO
+   cout<<"TODO"<<endl;
+  }
  }
 
  // Deallocate arrays

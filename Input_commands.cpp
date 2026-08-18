@@ -69,7 +69,8 @@ Input::Input(string cigreen_in)
    }
    else if(cigreen_in=="#time")
    {
-    cigreen_input_file>>t0>>tfin>>tstep;
+    time=true;
+    cigreen_input_file>>t0>>tlast>>tstep;
    }
    else{}
   }
