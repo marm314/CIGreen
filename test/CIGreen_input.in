@@ -3,14 +3,14 @@
 # N electrons
 2
 # N system
-FCIDUMP_N          
+FCIDUMP_N_sw          
 -2.880699493366  
 # N+1 system
 2
 -1.514213562373
  1.314213562373
-FCIDUMP_Np1_St1     
-FCIDUMP_Np1_St2     
+FCIDUMP_Np1_St1_sw     
+FCIDUMP_Np1_St2_sw     
 # N-1 system
 2
 -1.514213562373  

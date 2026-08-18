@@ -34,10 +34,6 @@ void read_nsystem(Input Input_commands,vector<C_det>&Cdet)
     {
      read_N>>index[ielec];
     }
-    for(ielec=Input_commands.nelectrons/2;ielec<Input_commands.nelectrons;ielec++)
-    {
-     index[ielec]=index[ielec]+Input_commands.nBasis;
-    }
     Cdet.push_back({val});
     for(ielec=0;ielec<Input_commands.nelectrons;ielec++)
     {
