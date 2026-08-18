@@ -109,8 +109,9 @@ void read_nsystem(Input Input_commands,vector<C_det>&Cdet)
 void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_an_N)
 {
  bool active;
- size_t ibas,jbas,idet,ielec,istate,*ndet,*index;
- double val,*fact_norm;
+ int nSwaps;
+ size_t ibas,jbas,kbas,idet,jdet,ielec,jelec,istate,*ndet,*index;
+ double val,Coef_nm1,*fact_norm;
  string line;
  ndet=new size_t[Input_commands.file_Nm1.size()];
  index=new size_t[Input_commands.nelectrons-1];
@@ -152,9 +153,10 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
    }
   }
   read_Nm1.close();
+  cout<<" Sum_I | C_I |^2 = "<<setw(20)<<fact_norm[istate]<<" N-1 system"<<endl;
   fact_norm[istate]=ONE/sqrt(fact_norm[istate]);
  }  
- // For each column of Nm1_an_N (basis) compute the N-1 states overlap
+ // For each column of Nm1_an_N[istate][ibas] (basis) compute the N-1 states overlap
  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
  {
   // First switch off determinants in the N system that do not contain ibas 
@@ -168,7 +170,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
   {
    if(Cdet[idet].active)
    {
-    // Extract indices
+    // Extract indices from N after annihilation of ibas
     vector<int>indices_tmp;
     for(jbas=0;jbas<Input_commands.nelectrons;jbas++)
     {
@@ -177,13 +179,76 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
       indices_tmp.push_back(Cdet[idet].indices_ref[jbas]);
      }
     }
-     // read for each state (N-1) indices (sorting them) and adding phases to the coefs
-     // compute overlap N-1 and N and store it at Nm1_an_N[istate][ibas]
-
+    // Read for each state (N-1) indices (sorting them) and adding phases to the coefs to compute < N-1 | anh_ibas | N >
+    for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
+    {
+     ifstream read_Nm1(Input_commands.file_Nm1[istate]);
+     while(getline(read_Nm1,line))
+     {
+      if(line==" Final CI vector")
+      {
+       for(jdet=0;jdet<ndet[istate];jdet++)
+       {
+        vector<int>indices_tmp2;
+        // Read a coef of N-1 CI vector (and correct the normalization)
+        read_Nm1>>Coef_nm1;
+        Coef_nm1=Coef_nm1/sqrt(fact_norm[istate]);
+        // Read infices of N-1 CI vector
+        for(jbas=0;jbas<Input_commands.nelectrons-1;jbas++)
+        {
+         read_Nm1>>kbas;
+         indices_tmp2.push_back(kbas);
+        }
+        // Sort the spin up and spin down indices (adjusting the sign of Coef_nm1)
+         // Sort spin-up states in Slater det. of N-1
+         nSwaps=0;
+         for(ielec=0;ielec<Input_commands.nelectrons/2-1;++ielec)
+         {
+          for(jelec=ielec+1;jelec<Input_commands.nelectrons/2-1;++jelec)
+          {
+           if(indices_tmp2[ielec] > indices_tmp2[jelec])
+           {
+            ++nSwaps;
+           }
+          }
+         }
+         if(nSwaps & 1) Coef_nm1=-Coef_nm1;
+         sort(indices_tmp2.begin(),indices_tmp2.begin()+Input_commands.nelectrons/2-1);
+         // Sort spin-down states in Slater det. of N-1
+         nSwaps=0;
+         for(ielec=Input_commands.nelectrons/2-1;ielec<Input_commands.nelectrons-1;++ielec)
+         {
+          for(jelec=ielec+1;jelec<Input_commands.nelectrons-1;++jelec)
+          {
+           if(indices_tmp2[ielec] > indices_tmp2[jelec])
+           {
+            ++nSwaps;
+           }
+          }
+         }
+         if(nSwaps & 1) Coef_nm1=-Coef_nm1;
+         sort(indices_tmp2.begin()+Input_commands.nelectrons/2-1,indices_tmp2.begin()+Input_commands.nelectrons-1);
+        // Compute overlap N-1 and N and store it at Nm1_an_N[istate][ibas]
+        if(indices_tmp==indices_tmp2)
+        {
+         Nm1_an_N[istate][ibas]+=Coef_nm1*Cdet[idet].Coef;
+        }
+       }
+      }
+     }
+     read_Nm1.close();
+    }
    }
   }
  }
-
+ for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   cout<<setw(20)<<Nm1_an_N[istate][ibas];
+  }
+  cout<<endl;
+ }
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
  delete[] ndet;ndet=NULL;
