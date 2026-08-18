@@ -201,7 +201,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
         // Read a coef of N-1 CI vector (and correct the normalization)
         read_Nm1>>Coef_nm1;
         Coef_nm1=Coef_nm1/sqrt(fact_norm[istate]);
-        // Read infices of N-1 CI vector
+        // Read indices of N-1 CI vector
         for(jbas=0;jbas<Input_commands.nelectrons-1;jbas++)
         {
          read_Nm1>>kbas;
@@ -236,7 +236,7 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
          }
          if(nSwaps & 1) Coef_nm1=-Coef_nm1;
          sort(indices_tmp2.begin()+Input_commands.nelectrons/2-1,indices_tmp2.begin()+Input_commands.nelectrons-1);
-        // Compute overlap N-1 and N and store it at Nm1_an_N[istate][ibas]
+        // Compute overlap N-1 anh N and store it at Nm1_an_N[istate][ibas]
         if(indices_tmp==indices_tmp2)
         {
          Nm1_an_N[istate][ibas]+=Coef_nm1*Coef_n;
@@ -266,6 +266,166 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
 
 void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_cr_N)
 {
-
+ bool active;
+ int nSwaps;
+ size_t ibas,jbas,kbas,idet,jdet,ielec,jelec,istate,*ndet,*index;
+ double val,Coef_n,Coef_np1,*fact_norm;
+ string line;
+ ndet=new size_t[Input_commands.file_Np1.size()];
+ index=new size_t[Input_commands.nelectrons+1];
+ fact_norm=new double[Input_commands.file_Np1.size()];
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++){fact_norm[istate]=ZERO;}
+ // Compute normalization factors N+1 systems
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+ {
+  active=false;
+  ndet[istate]=0;
+  ifstream read_Np1(Input_commands.file_Np1[istate]);
+  while(getline(read_Np1,line))
+  {
+   if(line==" Final CI vector")
+   {
+    active=true;
+    getline(read_Np1,line);
+   }
+   if(line==" /EOF"){active=false;}
+   if(active){ndet[istate]++;}
+  }
+  read_Np1.close();
+  ndet[istate]--;
+  read_Np1.open(Input_commands.file_Np1[istate]);
+  while(getline(read_Np1,line))
+  {
+   if(line==" Final CI vector")
+   {
+    getline(read_Np1,line);
+    for(idet=0;idet<ndet[istate];idet++)
+    {
+     read_Np1>>val;
+     for(ielec=0;ielec<Input_commands.nelectrons+1;ielec++)
+     {
+      read_Np1>>index[ielec];
+     }
+     fact_norm[istate]=fact_norm[istate]+val*val;
+    } 
+   }
+  }
+  read_Np1.close();
+  cout<<" Sum_I | C_I |^2 = "<<setw(20)<<fact_norm[istate]<<" N+1 system "<<Input_commands.file_Np1[istate]<<endl;
+  fact_norm[istate]=ONE/sqrt(fact_norm[istate]);
+ }  
+ // For each column of Np1_cr_N[istate][ibas] (basis) compute the N+1 states overlap
+ for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+ {
+  // First switch off determinants in the N system that contain ibas 
+  for(idet=0;idet<Cdet.size();idet++)
+  {
+   Cdet[idet].active=true;
+   if( ( find(Cdet[idet].indices_ref.begin(), Cdet[idet].indices_ref.end(),ibas+1)!=Cdet[idet].indices_ref.end() ) ){Cdet[idet].active=false;}
+  }
+  // Extract the rest of indices for the active determinants that contain ibas and build the column overlap
+  for(idet=0;idet<Cdet.size();idet++)
+  {
+   if(Cdet[idet].active)
+   {
+    // Correct the sign of the CI coefficient when creating the state ibas
+    Coef_n=Cdet[idet].Coef;
+    kbas=0;
+    for(jbas=0;jbas<Input_commands.nelectrons/2;jbas++)
+    {
+     if(ibas+1>Cdet[idet].indices_ref[jbas]){kbas++;}
+    }
+    Coef_n=Coef_n*pow(-ONE,(double)kbas);
+    // Extract indices from N after creation of ibas
+    vector<int>indices_tmp;
+    for(jbas=0;jbas<Input_commands.nelectrons;jbas++)
+    {
+     if(Cdet[idet].indices_ref[jbas]<ibas+1)
+     {
+      indices_tmp.push_back(Cdet[idet].indices_ref[jbas]);
+     }
+    }
+    indices_tmp.push_back(ibas+1);
+    for(jbas=0;jbas<Input_commands.nelectrons;jbas++)
+    {
+     if(Cdet[idet].indices_ref[jbas]>ibas+1)
+     {
+      indices_tmp.push_back(Cdet[idet].indices_ref[jbas]);
+     }
+    }
+    // Read for each state (N+1) indices (sorting them) and adding phases to the coefs to compute < N+1 | cre_ibas | N >
+    for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+    {
+     ifstream read_Np1(Input_commands.file_Np1[istate]);
+     while(getline(read_Np1,line))
+     {
+      if(line==" Final CI vector")
+      {
+       for(jdet=0;jdet<ndet[istate];jdet++)
+       {
+        vector<int>indices_tmp2;
+        // Read a coef of N+1 CI vector (and correct the normalization)
+        read_Np1>>Coef_np1;
+        Coef_np1=Coef_np1/sqrt(fact_norm[istate]);
+        // Read indices of N+1 CI vector
+        for(jbas=0;jbas<Input_commands.nelectrons+1;jbas++)
+        {
+         read_Np1>>kbas;
+         indices_tmp2.push_back(kbas);
+        }
+        // Sort the spin up and spin down indices (adjusting the sign of Coef_np1)
+         // Sort spin-up states in Slater det. of N+1
+         nSwaps=0;
+         for(ielec=0;ielec<Input_commands.nelectrons/2+1;++ielec)
+         {
+          for(jelec=ielec+1;jelec<Input_commands.nelectrons/2+1;++jelec)
+          {
+           if(indices_tmp2[ielec] > indices_tmp2[jelec])
+           {
+            ++nSwaps;
+           }
+          }
+         }
+         if(nSwaps & 1) Coef_np1=-Coef_np1;
+         sort(indices_tmp2.begin(),indices_tmp2.begin()+Input_commands.nelectrons/2+1);
+         // Sort spin-down states in Slater det. of N+1
+         nSwaps=0;
+         for(ielec=Input_commands.nelectrons/2+1;ielec<Input_commands.nelectrons+1;++ielec)
+         {
+          for(jelec=ielec+1;jelec<Input_commands.nelectrons+1;++jelec)
+          {
+           if(indices_tmp2[ielec] > indices_tmp2[jelec])
+           {
+            ++nSwaps;
+           }
+          }
+         }
+         if(nSwaps & 1) Coef_np1=-Coef_np1;
+         sort(indices_tmp2.begin()+Input_commands.nelectrons/2+1,indices_tmp2.begin()+Input_commands.nelectrons+1);
+        // Compute overlap N+1 cre N and store it at Np1_cr_N[istate][ibas]
+        if(indices_tmp==indices_tmp2)
+        {
+         Np1_cr_N[istate][ibas]+=Coef_np1*Coef_n;
+        }
+       }
+      }
+     }
+     read_Np1.close();
+    }
+   }
+  }
+ }
+/*
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   cout<<setw(20)<<Np1_cr_N[istate][ibas];
+  }
+  cout<<endl;
+ }
+*/
+ delete[] fact_norm;fact_norm=NULL;
+ delete[] index;index=NULL;
+ delete[] ndet;ndet=NULL;
 }
-
