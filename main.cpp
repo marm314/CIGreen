@@ -85,6 +85,11 @@ int main(int argc, char *argv[])
  // If time evaluation
  if(Input_commands.time)
  {
+  cout<<endl;
+  cout<<" ----------------------------"<<endl; 
+  cout<<" ---  G(tau) evaluations  ---"<<endl; 
+  cout<<" ----------------------------"<<endl; 
+  cout<<endl;
   if(Input_commands.imtime)
   {
    cout<<endl;
@@ -99,9 +104,18 @@ int main(int argc, char *argv[])
    if(abs(tau)<pow(TEN,-EIGHT)){tau=-pow(TEN,-EIGHT);}
    // Build the G_pq(tau) matrix
    build_Gpq_tau(tau,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
+   for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+   {
+    for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+    {
+     cout<<setw(30)<<G_pq[ibas][jbas];
+    }
+    cout<<endl;
+   } 
    // Build the 1RDM from G_pq
    if(tau<ZERO && abs(tau)<pow(TEN,-FIVE))
    {
+    cout<<endl;
     cout<<" Building the 1RDM"<<endl;
     DM1=new double*[Input_commands.nBasis];
     EIGVEC=new double*[Input_commands.nBasis];
@@ -130,6 +144,7 @@ int main(int argc, char *argv[])
    // Build the hole 1RDM from G_pq
    if(tau>ZERO && abs(tau)<pow(TEN,-FIVE))
    {
+    cout<<endl;
     cout<<" Building the (hole) 1RDM"<<endl;
     DM1=new double*[Input_commands.nBasis];
     EIGVEC=new double*[Input_commands.nBasis];
@@ -160,6 +175,11 @@ int main(int argc, char *argv[])
  // If frequency evaluation
  if(Input_commands.freq)
  {
+  cout<<endl;
+  cout<<" --------------------------"<<endl; 
+  cout<<" ---  G(w) evaluations  ---"<<endl; 
+  cout<<" --------------------------"<<endl; 
+  cout<<endl;
   if(Input_commands.imfreq)
   {
    cout<<endl;
@@ -173,6 +193,15 @@ int main(int argc, char *argv[])
    cout<<endl;
    // Build the G_pq(w) matrix
    build_Gpq_w(wfreq,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
+   for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+   {
+    for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+    {
+     cout<<setw(30)<<G_pq[ibas][jbas];
+    }
+    cout<<endl;
+   }
+   // TODO Spectral function? 
   }
  }
  // Deallocate arrays
