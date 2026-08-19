@@ -5,6 +5,7 @@
 #include<cstring>
 #include<complex>
 #include"Input_commands.h"
+#include"Mathematical_Functions.h"
 #include"gitver.h"
 #include"io.h"
 #include"Gpq.h"
@@ -19,8 +20,8 @@ int main(int argc, char *argv[])
  double tau;
  double **Nm1_an_N;
  double **Np1_cr_N;
+ double **DM1,**EIGVEC;
  complex<double>**G_pq;
- complex<double>**DM1;
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"---  From CI vector to Green's function  ---"<<endl; 
@@ -95,22 +96,57 @@ int main(int argc, char *argv[])
    if((tau<ZERO && abs(tau)<pow(TEN,-FIVE)) || tau==ZERO)
    {
     cout<<" Building the 1RDM"<<endl;
-    DM1=new complex<double>*[Input_commands.nBasis];
+    DM1=new double*[Input_commands.nBasis];
+    EIGVEC=new double*[Input_commands.nBasis];
     for(ibas=0;ibas<Input_commands.nBasis;ibas++)
     {
-     DM1[ibas]=new complex<double>[Input_commands.nBasis];
+     DM1[ibas]=new double[Input_commands.nBasis];
+     EIGVEC[ibas]=new double[Input_commands.nBasis];
      for(jbas=0;jbas<Input_commands.nBasis;jbas++)
      {
-      DM1[ibas][jbas]=-im*G_pq[ibas][jbas];
-      cout<<setw(20)<<real(DM1[ibas][jbas]);
+      DM1[ibas][jbas]=real(-im*G_pq[ibas][jbas]); // The 1-RDM is real in our case
+      cout<<setw(20)<<DM1[ibas][jbas];
      }
      cout<<endl;
     }
+    jacobi(Input_commands.nBasis,DM1,EIGVEC);// Build the NOs
+    cout<<" Occupation numbers 1RDM"<<endl;
     for(ibas=0;ibas<Input_commands.nBasis;ibas++)
     {
+     cout<<setw(20)<<DM1[ibas][ibas]<<endl;
      delete[] DM1[ibas];DM1[ibas]=NULL;
+     delete[] EIGVEC[ibas];EIGVEC[ibas]=NULL;
     }
     delete[] DM1; DM1=NULL;
+    delete[] EIGVEC; EIGVEC=NULL;
+   }
+   // Build the 1RDM from G_pq
+   if((tau>ZERO && abs(tau)<pow(TEN,-FIVE)))
+   {
+    cout<<" Building the (hole) 1RDM"<<endl;
+    DM1=new double*[Input_commands.nBasis];
+    EIGVEC=new double*[Input_commands.nBasis];
+    for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+    {
+     DM1[ibas]=new double[Input_commands.nBasis];
+     EIGVEC[ibas]=new double[Input_commands.nBasis];
+     for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+     {
+      DM1[ibas][jbas]=real(im*G_pq[ibas][jbas]);
+      cout<<setw(20)<<DM1[ibas][jbas];
+     }
+     cout<<endl;
+    }
+    jacobi(Input_commands.nBasis,DM1,EIGVEC);// Build the NOs
+    cout<<" Occupation numbers (hole) 1RDM"<<endl;
+    for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+    {
+     cout<<setw(20)<<DM1[ibas][ibas]<<endl;
+     delete[] DM1[ibas];DM1[ibas]=NULL;
+     delete[] EIGVEC[ibas];EIGVEC[ibas]=NULL;
+    }
+    delete[] DM1; DM1=NULL;
+    delete[] EIGVEC; EIGVEC=NULL;
    }
   }
  }
