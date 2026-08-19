@@ -3,9 +3,11 @@
 #include<vector>
 #include<fstream>
 #include<cstring>
+#include<complex>
 #include"Input_commands.h"
 #include"gitver.h"
 #include"io.h"
+#include"Gpq.h"
 
 using namespace std;
 
@@ -13,10 +15,12 @@ vector<C_det>Cdet;
 
 int main(int argc, char *argv[])
 {
- size_t istate,ibas;
+ size_t istate,ibas,jbas;
  double tau;
  double **Nm1_an_N;
  double **Np1_cr_N;
+ complex<double>**G_pq;
+ complex<double>**DM1;
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"---  From CI vector to Green's function  ---"<<endl; 
@@ -46,6 +50,7 @@ int main(int argc, char *argv[])
  cout<<endl; 
  cout<<" Reading input file "<<inp_name<<endl; 
  cout<<endl; 
+ cout<<setprecision(8)<<fixed;
  Input Input_commands(inp_name);
  Np1_cr_N=new double*[Input_commands.file_Np1.size()];
  Nm1_an_N=new double*[Input_commands.file_Nm1.size()];
@@ -65,6 +70,11 @@ int main(int argc, char *argv[])
    Nm1_an_N[istate][ibas]=ZERO;
   }
  }
+ G_pq=new complex<double>*[Input_commands.nBasis];
+ for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+ {
+  G_pq[ibas]=new complex<double>[Input_commands.nBasis];
+ }
  // Store the N electron system
  read_nsystem(Input_commands,Cdet);
  // Compute the < N-1 | anh_p | N > overlaps
@@ -76,8 +86,32 @@ int main(int argc, char *argv[])
  {
   for(tau=Input_commands.t0;tau<=Input_commands.tlast;tau=tau+Input_commands.tstep)
   {
-   // TODO
-   cout<<"TODO"<<endl;
+   cout<<endl;
+   cout<<" Evaluating time tau"<<setw(20)<<tau<<endl;
+   cout<<endl;
+   // Build the G_pq(tau) matrix
+   build_Gpq_tau(tau,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
+   // Build the 1RDM from G_pq
+   if((tau<ZERO && abs(tau)<pow(TEN,-FIVE)) || tau==ZERO)
+   {
+    cout<<" Building the 1RDM"<<endl;
+    DM1=new complex<double>*[Input_commands.nBasis];
+    for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+    {
+     DM1[ibas]=new complex<double>[Input_commands.nBasis];
+     for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+     {
+      DM1[ibas][jbas]=-im*G_pq[ibas][jbas];
+      cout<<setw(20)<<real(DM1[ibas][jbas]);
+     }
+     cout<<endl;
+    }
+    for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+    {
+     delete[] DM1[ibas];DM1[ibas]=NULL;
+    }
+    delete[] DM1; DM1=NULL;
+   }
   }
  }
 
@@ -90,8 +124,13 @@ int main(int argc, char *argv[])
  {
   delete[] Nm1_an_N[istate];Nm1_an_N[istate]=NULL;
  }
+ for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+ {
+  delete[] G_pq[ibas];G_pq[ibas]=NULL;
+ }
  delete[] Np1_cr_N;Np1_cr_N=NULL;
  delete[] Nm1_an_N;Nm1_an_N=NULL;
+ delete[] G_pq;G_pq=NULL;
  cout<<endl;
  cout<<"Git sha: "<<sha<<endl;
  cout<<endl;

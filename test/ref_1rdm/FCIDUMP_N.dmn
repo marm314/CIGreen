@@ -1,0 +1,32 @@
+ *** This is serial version of the code ***
+ PROGRAM DMn. CALCULATION OF DENSITY MATRICES
+ 
+      Thresholds (read):     0.0000E+00
+     Thresholds (write):     0.0000E+00
+ 
+           Wavefunction:   FCI
+             Open Shell:  F
+     Molecular Orbitals:    2
+    Number of electrons:    2
+        Alpha electrons:    1
+ 
+         Core electrons:        0
+         DMs to compute:     1  2
+          Memory needed:    0.0GB
+       Memory requested:    1.5GB
+  Reference Determinant:    1   2
+           Determinants:        4
+          Normalization:     1.000000000000
+ 
+           Determinants:        4
+          Normalization:     1.000000000000
+ 
+                Tr(DM2):        2.000000000000
+                Tr(DM1):        2.000000000000
+           Entropy(DM1):        0.001853904288
+       Idempotency(DM1):        0.000000129150
+ 
+Occupancies:
+   1.9998203   0.0001797
+ 
+ Normal Termination of PROGRAM DMn.

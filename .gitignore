@@ -12,3 +12,4 @@ gitver.cpp
 fcidump_sw
 fcidump_u2d
 *.swp
+Gpq.o
