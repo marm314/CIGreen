@@ -1,0 +1,25 @@
+# N basis
+2
+# N electrons
+2
+# N system
+FCIDUMP_N_sw          
+-2.880699493366  
+# N+1 system
+2
+-1.514213562373
+ 1.314213562373
+FCIDUMP_Np1_St1_sw     
+FCIDUMP_Np1_St2_sw     
+# N-1 system
+2
+-1.514213562373  
+ 1.314213562373
+FCIDUMP_Nm1_St1_u2d     
+FCIDUMP_Nm1_St2_u2d
+# time
+-0.3 0.3 0.1
+# frequency
+-0.2 0.2 0.1 0.00001
+# Im time
+# Im frequency

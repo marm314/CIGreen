@@ -85,15 +85,22 @@ int main(int argc, char *argv[])
  // If time evaluation
  if(Input_commands.time)
  {
+  if(Input_commands.imtime)
+  {
+   cout<<endl;
+   cout<<" Use of imaginary times is ON"<<endl;
+   cout<<endl;
+  }
   for(tau=Input_commands.t0;tau<=Input_commands.tlast;tau=tau+Input_commands.tstep)
   {
    cout<<endl;
    cout<<" Evaluating time tau"<<setw(20)<<tau<<endl;
    cout<<endl;
+   if(abs(tau)<pow(TEN,-EIGHT)){tau=-pow(TEN,-EIGHT);}
    // Build the G_pq(tau) matrix
    build_Gpq_tau(tau,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
    // Build the 1RDM from G_pq
-   if((tau<ZERO && abs(tau)<pow(TEN,-FIVE)) || tau==ZERO)
+   if(tau<ZERO && abs(tau)<pow(TEN,-FIVE))
    {
     cout<<" Building the 1RDM"<<endl;
     DM1=new double*[Input_commands.nBasis];
@@ -120,8 +127,8 @@ int main(int argc, char *argv[])
     delete[] DM1; DM1=NULL;
     delete[] EIGVEC; EIGVEC=NULL;
    }
-   // Build the 1RDM from G_pq
-   if((tau>ZERO && abs(tau)<pow(TEN,-FIVE)))
+   // Build the hole 1RDM from G_pq
+   if(tau>ZERO && abs(tau)<pow(TEN,-FIVE))
    {
     cout<<" Building the (hole) 1RDM"<<endl;
     DM1=new double*[Input_commands.nBasis];
@@ -153,6 +160,12 @@ int main(int argc, char *argv[])
  // If frequency evaluation
  if(Input_commands.freq)
  {
+  if(Input_commands.imfreq)
+  {
+   cout<<endl;
+   cout<<" Use of imaginary frequencies is ON"<<endl;
+   cout<<endl;
+  }
   for(wfreq=Input_commands.w0;wfreq<=Input_commands.wlast;wfreq=wfreq+Input_commands.wstep)
   {
    cout<<endl;
