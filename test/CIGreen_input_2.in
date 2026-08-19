@@ -20,7 +20,7 @@ FCIDUMP_Nm1_St2_u2d
 # time
 -0.3 0.3 0.1
 # frequency
--5.0 5.0 0.1 0.0001
+-5.0 5.0 0.01 0.0001
 # Im time
 # Im frequency
 # Spectral
