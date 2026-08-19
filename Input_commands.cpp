@@ -4,7 +4,7 @@ Input::Input(string cigreen_in)
 {
  size_t nP1,nM1;
  double val;
- time=false;
+ time=false;freq=false;
  nBasis=0;nP1=0;nM1=0;
  string name;
  ifstream cigreen_input_file;
@@ -71,6 +71,11 @@ Input::Input(string cigreen_in)
    {
     time=true;
     cigreen_input_file>>t0>>tlast>>tstep;
+   }
+   else if(cigreen_in=="#frequency")
+   {
+    freq=true;
+    cigreen_input_file>>w0>>wlast>>wstep>>weta;
    }
    else{}
   }

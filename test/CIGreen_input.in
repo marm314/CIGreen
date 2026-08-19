@@ -18,4 +18,6 @@ FCIDUMP_Np1_St2_sw
 FCIDUMP_Nm1_St1_u2d     
 FCIDUMP_Nm1_St2_u2d
 # time
--0.000001 0.1 0.2 
+-0.000001 0.1 0.2
+# frequency
+-0.2 0.2 0.1 0.00001 

@@ -17,7 +17,7 @@ vector<C_det>Cdet;
 int main(int argc, char *argv[])
 {
  size_t istate,ibas,jbas;
- double tau;
+ double tau,wfreq;
  double **Nm1_an_N;
  double **Np1_cr_N;
  double **DM1,**EIGVEC;
@@ -150,7 +150,18 @@ int main(int argc, char *argv[])
    }
   }
  }
-
+ // If frequency evaluation
+ if(Input_commands.freq)
+ {
+  for(wfreq=Input_commands.w0;wfreq<=Input_commands.wlast;wfreq=wfreq+Input_commands.wstep)
+  {
+   cout<<endl;
+   cout<<" Evaluating frequency "<<setw(20)<<wfreq<<endl;
+   cout<<endl;
+   // Build the G_pq(w) matrix
+   build_Gpq_w(wfreq,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
+  }
+ }
  // Deallocate arrays
  for(istate=0;istate<Input_commands.file_Np1.size();istate++)
  {

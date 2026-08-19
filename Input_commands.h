@@ -27,10 +27,11 @@ class Input // Input information
  private:
  size_t icount;
  public:
- bool time;
+ bool time,freq;
  size_t nBasis,nelectrons;
  double En;
  double t0,tlast,tstep;
+ double w0,wlast,wstep,weta;
  vector<double>Enp1;
  vector<double>Enm1;
  string file_N;
