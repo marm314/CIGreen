@@ -27,7 +27,7 @@ class Input // Input information
  private:
  size_t icount;
  public:
- bool time,freq,imfreq,imtime;
+ bool time,freq,imfreq,imtime,spectral;
  size_t nBasis,nelectrons;
  double En;
  double t0,tlast,tstep;

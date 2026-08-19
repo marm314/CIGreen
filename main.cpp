@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
  double **Nm1_an_N;
  double **Np1_cr_N;
  double **DM1,**EIGVEC;
+ complex<double>spectral_w;
  complex<double>**G_pq;
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
@@ -125,7 +126,7 @@ int main(int argc, char *argv[])
      EIGVEC[ibas]=new double[Input_commands.nBasis];
      for(jbas=0;jbas<Input_commands.nBasis;jbas++)
      {
-      DM1[ibas][jbas]=real(-im*G_pq[ibas][jbas]); // The 1-RDM is real in our case
+      DM1[ibas][jbas]=(-im*G_pq[ibas][jbas]).real(); // The 1-RDM is real in our case
       cout<<setw(20)<<DM1[ibas][jbas];
      }
      cout<<endl;
@@ -154,7 +155,7 @@ int main(int argc, char *argv[])
      EIGVEC[ibas]=new double[Input_commands.nBasis];
      for(jbas=0;jbas<Input_commands.nBasis;jbas++)
      {
-      DM1[ibas][jbas]=real(im*G_pq[ibas][jbas]);
+      DM1[ibas][jbas]=(im*G_pq[ibas][jbas]).real();
       cout<<setw(20)<<DM1[ibas][jbas];
      }
      cout<<endl;
@@ -201,7 +202,20 @@ int main(int argc, char *argv[])
     }
     cout<<endl;
    }
-   // TODO Spectral function? 
+   // Spectral function
+   if(Input_commands.spectral)
+   {
+    build_Gpq_w_Retarded(wfreq,Input_commands,Np1_cr_N,Nm1_an_N,G_pq);
+    spectral_w=CZERO;
+    for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+    {
+     spectral_w-=(G_pq[ibas][ibas]).imag();
+    }
+    spectral_w=spectral_w/PI;
+    cout<<endl;
+    cout<<" Spectral function w : "<<setw(20)<<wfreq<<" A(w) : "<<setw(30)<<spectral_w.real()<<endl;
+    cout<<endl;
+   }
   }
  }
  // Deallocate arrays

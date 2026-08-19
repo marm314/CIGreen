@@ -93,3 +93,45 @@ void build_Gpq_w(double &wfreq,Input Input_commands,double **Np1_cr_N, double **
  } 
 }
 
+void build_Gpq_w_Retarded(double &wfreq,Input Input_commands,double **Np1_cr_N, double **Nm1_an_N,complex<double> **Gpq)
+{
+ size_t ibas,jbas,istate;
+ complex<double>wfreq_eval;
+ complex<double>factor;
+ for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+ {
+  for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+  {
+   Gpq[ibas][jbas]=CZERO;
+  }
+ }
+ // Set freq_eval always real for the Spectral function
+ wfreq_eval=wfreq;
+ // N+1 contribution
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+ {
+  factor=wfreq_eval-(Input_commands.Enp1[istate]-Input_commands.En)+Input_commands.weta*im;
+  factor=ONE/factor;
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+   {
+    Gpq[ibas][jbas]+=factor*Np1_cr_N[istate][ibas]*Np1_cr_N[istate][jbas];
+   }
+  }
+ } 
+ // N-1 contribution
+ for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
+ {
+  factor=wfreq_eval-(Input_commands.En-Input_commands.Enm1[istate])+Input_commands.weta*im;
+  factor=ONE/factor;
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   for(jbas=0;jbas<Input_commands.nBasis;jbas++)
+   {
+    Gpq[ibas][jbas]+=factor*Nm1_an_N[istate][jbas]*Nm1_an_N[istate][ibas];
+   }
+  }
+ } 
+}
+
