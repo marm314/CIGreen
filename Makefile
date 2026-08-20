@@ -11,21 +11,21 @@ OBJECTS= main.o Input_commands.o Mathematical_Functions.o String_ops.o gitver.o 
 all:
 	./gitversion.sh
 	make CIGreen
-	make fcidump_sw
-	make fcidump_u2d
+	make fci_sw
+	make fci_u2d
 %.o: %.cpp   
 	$(CPP) $(CPPFLAGS) -c $*.cpp 
 CIGreen: $(OBJECTS) $(SCR) Makefile 
 	$(CPP) $(CPPFLAGS) $(OBJECTS) -o CIGreen.x -llapack -lblas -lstdc++
-fcidump_sw: fcidump_sw.cpp Makefile 
-	$(CPP) fcidump_sw.cpp -o fcidump_sw
-fcidump_u2d: fcidump_u2d.cpp Makefile 
-	$(CPP) fcidump_u2d.cpp -o fcidump_u2d
+fci_sw: fci_sw.cpp Makefile 
+	$(CPP) fci_sw.cpp -o fci_sw
+fci_u2d: fci_u2d.cpp Makefile 
+	$(CPP) fci_u2d.cpp -o fci_u2d
 clean:
 	$(Cln) *.o
 	$(Cln) *CIGreen.x
-	$(Cln) *fcidump_sw
-	$(Cln) *fcidump_u2d
+	$(Cln) *fci_sw
+	$(Cln) *fci_u2d
 	$(Cln) *~
 	$(Cln) gitver.cpp gitver.o gitver.h
 	$(Cln) $(NAME).tar.gz 
