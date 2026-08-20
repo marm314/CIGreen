@@ -1,8 +1,7 @@
 # Makefile for rho_ops
 #
-#CPP = c++ -DHAVE_LIBXC /usr/lib/x86_64-linux-gnu/libxc.so
 CPP = c++
-CPPFLAGS = -Wall -Wl,--allow-multiple-definition -O3 -fopenmp -llapack -lblas -lstdc++ 
+CPPFLAGS = -Wall -Wl,--allow-multiple-definition -O3 -fopenmp
 Cln = /bin/rm -rf
 NAME=CIGreen
 ###########################################
@@ -17,7 +16,7 @@ all:
 %.o: %.cpp   
 	$(CPP) $(CPPFLAGS) -c $*.cpp 
 CIGreen: $(OBJECTS) $(SCR) Makefile 
-	$(CPP) $(CPPFLAGS) $(OBJECTS) -o CIGreen.x
+	$(CPP) $(CPPFLAGS) $(OBJECTS) -o CIGreen.x -llapack -lblas -lstdc++
 fcidump_sw: fcidump_sw.cpp Makefile 
 	$(CPP) fcidump_sw.cpp -o fcidump_sw
 fcidump_u2d: fcidump_u2d.cpp Makefile 

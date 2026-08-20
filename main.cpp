@@ -213,7 +213,7 @@ int main(int argc, char *argv[])
     }
     spectral_w=spectral_w/PI;
     cout<<endl;
-    cout<<" Spectral function w : "<<setw(20)<<wfreq<<" A(w) : "<<setw(30)<<spectral_w.real()<<endl;
+    cout<<" Spectral function w : "<<setw(20)<<wfreq<<" A(w) : "<<setw(30)<<TWO*spectral_w.real()<<endl; // Times 2 to sum both spin channels
     cout<<endl;
    }
   }
