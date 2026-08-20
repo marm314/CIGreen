@@ -16,3 +16,4 @@ Gpq.o
 Mathematical_Functions.o
 fci_sw
 fci_u2d
+split_fci
