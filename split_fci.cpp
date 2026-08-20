@@ -8,23 +8,25 @@ int main(int argc, char* argv[])
 {
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
- cout<<"---   SPlit the FCIDUMP.out CI vectors   ---"<<endl; 
+ cout<<"---   Split the FCIDUMP.out CI vectors   ---"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"-- Developed by: Dr. M. Rodriguez-Mayorga --"<<endl;
  cout<<"--      email: marm3.14@gmail.com         --"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
  cout<<"--------------------------------------------"<<endl; 
-    if (argc != 2) {
-        cout<<endl;
-        cout<<"./split_fci FCIDUMP.out"<<endl;
-        cout<<endl;
-        cout<<"----------------------------------------"<<endl;
-        cout<<"--        Normal termination          --"<<endl;
-        cout<<"----------------------------------------"<<endl;
-        cout<<"----------------------------------------"<<endl;
-        return 1;
-    }
+ if (argc != 2) 
+ {
+  cout<<endl;
+  cout<<"Include the input file"<<endl;
+  cout<<"./split_fci FCIDUMP.out"<<endl;
+  cout<<endl;
+  cout<<"----------------------------------------"<<endl;
+  cout<<"--        Normal termination          --"<<endl;
+  cout<<"----------------------------------------"<<endl;
+  cout<<"----------------------------------------"<<endl;
+  return 1;
+ }
 
     std::string input_filename = argv[1];
 
@@ -102,9 +104,7 @@ int main(int argc, char* argv[])
         std::cerr << "Warning: last CI vector has no /EOF marker.\n";
     }
 
-    std::cout << "Extracted "
-              << vector_number
-              << " CI vectors.\n";
+    cout << "Extracted "<< vector_number<< " CI vectors.\n";
 
     cout<<endl;
     cout<<"----------------------------------------"<<endl;
