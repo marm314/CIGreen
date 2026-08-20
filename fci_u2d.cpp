@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
  if(argc!=5)
  {
   cout<<"Include the input file"<<endl;
-  cout<<"./fcidump_u2d nBasis nElectrons Delta_spin_up_spin_down FCIDUMP.out"<<endl;
+  cout<<"./fci_u2d nBasis nElectrons Delta_spin_up_spin_down FCIDUMP.out"<<endl;
   cout<<endl;
   cout<<"----------------------------------------"<<endl;
   cout<<"--        Normal termination          --"<<endl;
