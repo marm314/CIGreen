@@ -4,7 +4,7 @@ Input::Input(string cigreen_in)
 {
  size_t nP1,nM1;
  double val;
- time=false;freq=false;imfreq=false;imtime=false;spectral=false;
+ time=false;freq=false;imfreq=false;imtime=false;spectral=false;read_ovrlp=false;
  nBasis=0;nP1=0;nM1=0;
  string name;
  ifstream cigreen_input_file;
@@ -80,6 +80,7 @@ Input::Input(string cigreen_in)
    else if(cigreen_in=="#imtime"){imtime=true;}
    else if(cigreen_in=="#imfrequency"){imfreq=true;}
    else if(cigreen_in=="#spectral"){spectral=true;}
+   else if(cigreen_in=="#readoverlap"){read_ovrlp=true;}
    else{}
   }
  }

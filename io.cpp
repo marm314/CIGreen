@@ -263,6 +263,22 @@ void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_a
  }
  cout<<endl;
 */
+ // Print in .bin the overlap matrix
+ ofstream output_data((Input_commands.file_N+"_Nm1N.ovlp").c_str(), ios::binary);
+ for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+   output_data.write((char*) &Nm1_an_N[istate][ibas], sizeof(Nm1_an_N[istate][ibas]));
+   output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+  }
+ }
+ val=pow(TEN,TEN);
+ output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+ output_data.write((char*) &val, sizeof(val));
+ output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+ output_data.close();
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
  delete[] ndet;ndet=NULL;
@@ -433,7 +449,56 @@ void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_c
  }
  cout<<endl;
 */
+ // Print in .bin the overlap matrix
+ ofstream output_data((Input_commands.file_N+"_Np1N.ovlp").c_str(), ios::binary);
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+   output_data.write((char*) &Np1_cr_N[istate][ibas], sizeof(Np1_cr_N[istate][ibas]));
+   output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+  }
+ }
+ val=pow(TEN,TEN);
+ output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+ output_data.write((char*) &val, sizeof(val));
+ output_data.seekp(RECORD_DELIMITER_LENGTH, ios::cur);
+ output_data.close();
  delete[] fact_norm;fact_norm=NULL;
  delete[] index;index=NULL;
  delete[] ndet;ndet=NULL;
 }
+
+void read_ovlp_nm1_an_n_system(Input Input_commands,double **Nm1_an_N)
+{
+ size_t ibas,istate;
+ ifstream input_data((Input_commands.file_N+"_Nm1N.ovlp").c_str(), ios::binary);
+ for(istate=0;istate<Input_commands.file_Nm1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   input_data.seekg(RECORD_DELIMITER_LENGTH, ios::cur);
+   input_data.read((char*) &Nm1_an_N[istate][ibas], sizeof(Nm1_an_N[istate][ibas]));
+   input_data.seekg(RECORD_DELIMITER_LENGTH, ios::cur);
+  }
+ } 
+ input_data.close();
+}
+
+void read_ovlp_np1_cr_n_system(Input Input_commands,double **Np1_cr_N)
+{
+ size_t ibas,istate;
+ ifstream input_data((Input_commands.file_N+"_Np1N.ovlp").c_str(), ios::binary);
+ for(istate=0;istate<Input_commands.file_Np1.size();istate++)
+ {
+  for(ibas=0;ibas<Input_commands.nBasis;ibas++)
+  {
+   input_data.seekg(RECORD_DELIMITER_LENGTH, ios::cur);
+   input_data.read((char*) &Np1_cr_N[istate][ibas], sizeof(Np1_cr_N[istate][ibas]));
+   input_data.seekg(RECORD_DELIMITER_LENGTH, ios::cur);
+  }
+ } 
+ input_data.close();
+}
+

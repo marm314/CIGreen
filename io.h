@@ -8,9 +8,13 @@
 #include"Input_commands.h"
 
 using namespace std;
+const int RECORD_DELIMITER_LENGTH=4;
 void read_nsystem(Input Input_commands,vector<C_det>&Cdet);
 void ovlp_nm1_an_n_system(Input Input_commands,vector<C_det>&Cdet,double **Nm1_an_N);
 void ovlp_np1_cr_n_system(Input Input_commands,vector<C_det>&Cdet,double **Np1_cr_N);
+void read_ovlp_nm1_an_n_system(Input Input_commands,double **Nm1_an_N);
+void read_ovlp_np1_cr_n_system(Input Input_commands,double **Np1_cr_N);
+
 
 #endif // _IO_VERSION_H_
 

@@ -77,12 +77,35 @@ int main(int argc, char *argv[])
  {
   G_pq[ibas]=new complex<double>[Input_commands.nBasis];
  }
- // Store the N electron system
- read_nsystem(Input_commands,Cdet);
- // Compute the < N-1 | anh_p | N > overlaps
- ovlp_nm1_an_n_system(Input_commands,Cdet,Nm1_an_N);
- // Compute the < N+1 | cre_p | N > overlaps
- ovlp_np1_cr_n_system(Input_commands,Cdet,Np1_cr_N);
+ // Store the N electron system (?)
+ if(!Input_commands.read_ovrlp)
+ {
+  read_nsystem(Input_commands,Cdet);
+ }
+ // Compute/Read the < N-1 | anh_p | N > overlaps
+ if(Input_commands.read_ovrlp)
+ {
+  cout<<endl;
+  cout<<" Reading the < N-1 | anh_p | N > overlaps from "<<Input_commands.file_N+"_Nm1N.ovlp"<<endl;
+  cout<<endl;
+  read_ovlp_nm1_an_n_system(Input_commands,Nm1_an_N); 
+ }
+ else
+ {
+  ovlp_nm1_an_n_system(Input_commands,Cdet,Nm1_an_N);
+ }
+ // Compute/Read the < N+1 | cre_p | N > overlaps
+ if(Input_commands.read_ovrlp)
+ {
+  cout<<endl;
+  cout<<" Reading the < N+1 | cre_p | N > overlaps from "<<Input_commands.file_N+"_Np1N.ovlp"<<endl;
+  cout<<endl;
+  read_ovlp_np1_cr_n_system(Input_commands,Np1_cr_N);
+ }
+ else
+ {
+  ovlp_np1_cr_n_system(Input_commands,Cdet,Np1_cr_N);
+ }
  // If time evaluation
  if(Input_commands.time)
  {
